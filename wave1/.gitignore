@@ -1,0 +1,7 @@
+# Disposable harness (P11) — git-ignored
+.harness/
+
+# Python
+__pycache__/
+*.pyc
+*.log
