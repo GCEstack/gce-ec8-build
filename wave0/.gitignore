@@ -1,0 +1,9 @@
+# Disposable harness store (P11) — git-ignored; never a production artifact
+.harness/
+
+# Python
+__pycache__/
+*.pyc
+
+# Runtime scratch
+*.log
