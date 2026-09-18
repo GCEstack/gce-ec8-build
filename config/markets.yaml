@@ -1,0 +1,18 @@
+# ECAI market-scope registry (P20 §3.1, P22-2).
+# market_scope is CONFIG, not a hard-coded enum. "MGM-only" = BetMGM-sourced
+# betting lines only (a data-provenance constraint), NOT a market-type constraint.
+# Registering a BetMGM run-line/totals scope later = a new entry here + its
+# direction vocabulary + the prompts' market line — no schema/contract redesign.
+
+markets_version: ecai.markets/1.0
+default_scope: moneyline
+
+scopes:
+  moneyline:
+    description: "BetMGM moneyline (h2h) — V1 default scope"
+    odds_market: h2h
+    source_columns:            # BetMGM columns only (all other books excluded)
+      price: betmgm
+      line: betmgm_line
+    direction_vocabulary: [HOME, AWAY]
+    sufficiency_critical_factors: [pitchers, lineups, odds_betmgm]

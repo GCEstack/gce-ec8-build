@@ -1,0 +1,27 @@
+# ECAI build — checkpoint hygiene (ANCHOR-DROP-1)
+# Exclude secrets / auth / session material. Never commit credentials.
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Run / harness state and logs (session material)
+.harness/
+latest_logs/
+archived_logs/
+*.log
+
+# Secrets / auth — never commit
+.env
+.env.*
+*.key
+*.pem
+credentials*
+auth.json
+.netrc
+.aws/
+.secrets/

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/binding_record/1.0",
+  "title": "ECAI Binding Record (P20 §2.1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "dataset_id", "freeze_timestamp", "slate", "composite_digest",
+    "manifest_path", "manifest_entry_count", "manifest_distinct_digests",
+    "gate_status", "excluded_matchups", "source_artifacts",
+    "binding_schema_version", "prose_discrepancies"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/binding_record/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "BINDING" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "dataset_id": { "type": "string", "minLength": 1 },
+    "freeze_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "slate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["date", "game_count", "join_key_format"],
+      "properties": {
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "game_count": { "type": "integer", "minimum": 0 },
+        "join_key_format": { "type": "string", "minLength": 1 }
+      }
+    },
+    "composite_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "manifest_path": { "type": "string", "minLength": 1 },
+    "manifest_entry_count": { "type": "integer", "minimum": 0 },
+    "manifest_distinct_digests": { "type": "integer", "minimum": 0 },
+    "gate_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_games", "per_game"],
+      "properties": {
+        "eligible_games": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "per_game": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "excluded_matchups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["game_key", "reason"],
+        "properties": {
+          "game_key": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relpath", "sha256"],
+        "properties": {
+          "relpath": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "binding_schema_version": { "const": "ecai/binding_record/1.0", "type": "string" },
+    "prose_discrepancies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field"],
+        "properties": {
+          "field": { "type": "string", "minLength": 1 },
+          "prose_value": { "type": ["string", "null"] },
+          "authoritative_value": { "type": ["string", "null"] },
+          "note": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

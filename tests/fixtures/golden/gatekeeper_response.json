@@ -1,0 +1,39 @@
+{
+  "schema_id": "ecai/gatekeeper_response/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:16:00Z",
+  "provenance": {
+    "stage": "GATEKEEPER",
+    "persona": null,
+    "model_id": "anthropic.claude-sonnet-4-5",
+    "input_artifact_hashes": [
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ]
+  },
+  "game_key": "Away@Home 2026-09-15",
+  "verdict": "CONFIRM",
+  "rationale": [
+    {
+      "schema_id": "ecai/evidence_item/1.0",
+      "run_id": "11111111-1111-4111-8111-111111111111",
+      "produced_at": "2026-09-15T22:16:00Z",
+      "provenance": {
+        "stage": "PANEL",
+        "persona": "market",
+        "model_id": "anthropic.claude-sonnet-4-5",
+        "input_artifact_hashes": [
+          "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        ]
+      },
+      "claim": "Curated direction matches the frozen BetMGM line sign.",
+      "factor": "odds_betmgm",
+      "value": { "home_moneyline": -130 },
+      "source_relpath": "frozen/odds_20260915_215229.csv",
+      "source_sha256": "a14306bb8d58d08eda39db879d4584aa0ac2b7f49f1235d046ac8062cd36cbfa"
+    }
+  ],
+  "checks": [
+    { "rule_id": "R-QUORUM", "result": "PASS" },
+    { "rule_id": "R-SUFFICIENCY", "result": "PASS" }
+  ]
+}

@@ -1,0 +1,21 @@
+# ECAI DET check registry (P20 §2.4, §7 row 4). Versioned; no lean/pick/score
+# rule exists here — checks assert facts about data only.
+# Rule types implemented in ecai/detlane/lane.py:
+#   factor_available    — framing factor has data
+#   both_teams_present  — both away and home appear in the factor rows
+#   lineups_complete    — each team has >= params.per_team batters
+
+det_checks_version: ecai.det_checks/1.0
+
+checks:
+  - { check_id: PITCHERS_AVAILABLE,     factor: pitchers,       rule: factor_available }
+  - { check_id: PITCHERS_BOTH_SIDES,    factor: pitchers,       rule: both_teams_present }
+  - { check_id: LINEUPS_AVAILABLE,      factor: lineups,        rule: factor_available }
+  - { check_id: LINEUPS_COMPLETE,       factor: lineups,        rule: lineups_complete, params: { per_team: 9 } }
+  - { check_id: BULLPEN_AVAILABLE,      factor: bullpen,        rule: factor_available }
+  - { check_id: ODDS_BETMGM_AVAILABLE,  factor: odds_betmgm,    rule: factor_available }
+  - { check_id: ODDS_BETMGM_BOTH_SIDES, factor: odds_betmgm,    rule: both_teams_present }
+  - { check_id: INJURIES_AVAILABLE,     factor: injuries,       rule: factor_available }
+  - { check_id: UMPIRE_AVAILABLE,       factor: umpire,         rule: factor_available }
+  - { check_id: WEATHER_AVAILABLE,      factor: weather,        rule: factor_available }
+  - { check_id: REST_AVAILABLE,         factor: rest,           rule: factor_available }

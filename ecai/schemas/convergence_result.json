@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/convergence_result/1.0",
+  "title": "ECAI Convergence Result (P20 §2.6)",
+  "description": "Bounded tally mechanics. agreement_index is descriptive only and never governs (P22-8).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "market_scope", "tally", "valid_analysts", "quorum_met",
+    "agreement_index", "direction", "dissent_map", "sufficiency", "status",
+    "det_output_ref", "analyst_verdict_refs"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/convergence_result/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "CONVERGENCE" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "market_scope": { "type": "string", "minLength": 1 },
+    "tally": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supports", "opposes", "no_data", "invalid"],
+      "properties": {
+        "supports": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "opposes": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "no_data": { "type": "integer", "minimum": 0 },
+        "invalid": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "valid_analysts": { "type": "integer", "minimum": 0 },
+    "quorum_met": { "type": "boolean" },
+    "agreement_index": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "direction": { "type": "string", "minLength": 1 },
+    "dissent_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["persona", "verdict", "selection", "reason_codes"],
+        "properties": {
+          "persona": { "type": "string", "minLength": 1 },
+          "verdict": { "enum": ["SUPPORTS", "OPPOSES", "NO_DATA"] },
+          "selection": { "type": ["string", "null"] },
+          "reason_codes": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "sufficiency": { "enum": ["SUFFICIENT", "SPARSE", "INSUFFICIENT"] },
+    "status": {
+      "enum": [
+        "CONVERGED", "NO_CONVERGENCE", "STOP_BELOW_QUORUM", "STOP_INSUFFICIENT_DATA"
+      ]
+    },
+    "det_output_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "analyst_verdict_refs": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+    }
+  }
+}

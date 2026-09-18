@@ -1,0 +1,28 @@
+# ECAI role->occupant runtime manifest (P20 §5.1, Rev 3).
+# MODEL != ROLE != SEAT: occupants are pinned model IDs; roles are analyst/gatekeeper;
+# no seat names appear in runtime config.
+#
+# C2' CONFIRMATION (2026-09-17, Keel, read-only control-plane probe, no spend):
+#   region configured in this account: us-east-2  (P20 proposed us-east-1 — corrected)
+#   confirmed via bedrock:ListFoundationModels / ListInferenceProfiles
+#   - anthropic.claude-sonnet-4-5-20250929-v1:0   PRESENT  (P20 placeholder "anthropic.claude-sonnet-4-5" was not an exact catalog id)
+#   - meta.llama3-3-70b-instruct-v1:0             PRESENT
+#   - amazon.nova-pro-v1:0                        PRESENT
+#   >=2 model families available: anthropic (13), meta (7), amazon (5)
+#   ACTIVE inference profiles also available (us.* and global.*) if on-demand base access is denied.
+#   On-demand invocation access / quota NOT verified — requires a live call (Phase 6, gated).
+
+manifest_version: ecai.bedrock/1.0
+region: us-east-2
+
+roles:
+  analyst:
+    occupants:                       # >=2 model families [GIVEN]
+      - {model_id: "anthropic.claude-sonnet-4-5-20250929-v1:0", family: anthropic, personas: [statistician, market]}
+      - {model_id: "meta.llama3-3-70b-instruct-v1:0",           family: meta,      personas: [context]}
+      - {model_id: "amazon.nova-pro-v1:0",                      family: amazon,    personas: [contrarian]}
+  gatekeeper:
+    occupant: {model_id: "anthropic.claude-sonnet-4-5-20250929-v1:0", family: anthropic}
+
+invocation: {timeout_s: 45, max_retries: 2, backoff_s: [2, 8], parse_retries: 2}
+quorum: {fraction: 0.67, absolute_floor: 2, window_s: 120}

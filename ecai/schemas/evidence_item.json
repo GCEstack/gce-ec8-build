@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/evidence_item/1.0",
+  "title": "ECAI Evidence Item (P20 §2.3)",
+  "description": "Uniform serialization for analyst rationale items and DET findings. factor enum excludes consensus/kalshi (P22-3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "claim", "factor", "value", "source_relpath", "source_sha256"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/evidence_item/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "enum": ["DET", "PANEL"] },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "stage": { "const": "PANEL" } },
+            "required": ["stage"]
+          },
+          "then": {
+            "required": ["persona"],
+            "properties": { "persona": { "type": "string", "minLength": 1 } }
+          }
+        }
+      ]
+    },
+    "claim": { "type": "string", "minLength": 1 },
+    "factor": {
+      "enum": [
+        "pitchers", "bullpen", "lineups", "umpire", "weather",
+        "rest", "injuries", "team_evidence", "odds_betmgm"
+      ]
+    },
+    "value": {},
+    "source_relpath": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

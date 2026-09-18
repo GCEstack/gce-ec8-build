@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/gatekeeper_request/1.0",
+  "title": "ECAI Gatekeeper Request (P20 §2.8)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "curated_item", "binding_digest", "rules_version"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/gatekeeper_request/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "GATEKEEPER" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "curated_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "inline"],
+      "properties": {
+        "ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "inline": { "$ref": "ecai/curated_slate_item/1.0" }
+      }
+    },
+    "binding_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "rules_version": { "type": "string", "minLength": 1 }
+  }
+}

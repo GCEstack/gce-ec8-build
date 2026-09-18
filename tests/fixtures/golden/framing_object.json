@@ -1,0 +1,77 @@
+{
+  "schema_id": "ecai/framing_object/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:11:00Z",
+  "provenance": {
+    "stage": "FRAMING",
+    "persona": null,
+    "model_id": null,
+    "input_artifact_hashes": [
+      "2f1fce46ca66219a0349a372052721a47f00d515fffa20bdb5cc3d4d3fc3ae4c"
+    ]
+  },
+  "game_key": "Away@Home 2026-09-15",
+  "slate_date": "2026-09-15",
+  "first_pitch_pt": "15:40",
+  "market_scope": "moneyline",
+  "factors": {
+    "pitchers": {
+      "available": true,
+      "source_relpath": "frozen/pitchers_20260915_215229.csv",
+      "source_sha256": "e3dbeccc969deb41589aa09ea40edb2130ace999cc62b9d741b5f088a7b3aa07",
+      "home_starter": "Home SP",
+      "away_starter": "Away SP"
+    },
+    "bullpen": {
+      "available": true,
+      "source_relpath": "frozen/bullpen_20260915_215229.csv",
+      "source_sha256": "e7f021fbd0d53502d02be04eda732d5ec2f324091271a5bb2b6894b918e655b5",
+      "home_bullpen_era": 3.4
+    },
+    "lineups": {
+      "available": true,
+      "source_relpath": "frozen/lineups_20260915_215229.csv",
+      "source_sha256": "7849a08d0903177639328d13720e1e1c55e0e77426f26bef42db3799142fdf68",
+      "confirmed": true
+    },
+    "umpire": {
+      "available": true,
+      "source_relpath": "frozen/umpires_20260915_215229.csv",
+      "source_sha256": "fa2849b4affd9067e735ebc0fe5f13fd019f624b30d1b642b8e2156b132f4e4c",
+      "hp_umpire": "Ump"
+    },
+    "weather": {
+      "available": true,
+      "source_relpath": "frozen/weather_20260915_215229.csv",
+      "source_sha256": "971c9c5941c3c6f240048a6ff34dde9f708e813c91c6f21e25b0ab613d27b85c",
+      "temp_f": 72
+    },
+    "rest": {
+      "available": true,
+      "source_relpath": "frozen/rest_20260915_215229.csv",
+      "source_sha256": "f089719b3c60283416d4f8fbfa8f4d3bb633ca583d2ec3121aed138e2a26911d",
+      "home_days_rest": 1
+    },
+    "injuries": {
+      "available": true,
+      "source_relpath": "frozen/injuries_20260915_215229.csv",
+      "source_sha256": "770b157ebd03a0a0be587ba4c810ed111a9b43ac6bb98e89a5f4ac53e300274f",
+      "home_il": 2
+    },
+    "team_evidence": {
+      "available": true,
+      "source_relpath": "frozen/team_evidence_20260915_220237.csv",
+      "source_sha256": "386c688eba58b5f53f34ff4549ae1064691c95fe64542328533277f951f5c010",
+      "home_record": "80-65"
+    },
+    "odds_betmgm": {
+      "available": true,
+      "source_relpath": "frozen/odds_20260915_215229.csv",
+      "source_sha256": "a14306bb8d58d08eda39db879d4584aa0ac2b7f49f1235d046ac8062cd36cbfa",
+      "book": "BetMGM",
+      "home_moneyline": -130,
+      "away_moneyline": 110
+    }
+  },
+  "missing_factors": []
+}

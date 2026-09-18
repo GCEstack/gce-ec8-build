@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/analyst_verdict/1.0",
+  "title": "ECAI Analyst Verdict (P20 §2.5)",
+  "description": "selection is null iff verdict is NO_DATA; selection vocabulary is config-validated by the runtime against the active market_scope. confidence_hint is advisory only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "market_scope", "persona", "verdict",
+    "selection", "rationale", "missing_data", "confidence_hint"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/analyst_verdict/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "persona", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "PANEL" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "market_scope": { "type": "string", "minLength": 1 },
+    "persona": { "type": "string", "minLength": 1 },
+    "verdict": { "enum": ["SUPPORTS", "OPPOSES", "NO_DATA"] },
+    "selection": { "type": ["string", "null"] },
+    "rationale": {
+      "type": "array",
+      "items": { "$ref": "ecai/evidence_item/1.0" }
+    },
+    "missing_data": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "pitchers", "bullpen", "lineups", "umpire", "weather",
+          "rest", "injuries", "team_evidence", "odds_betmgm"
+        ]
+      }
+    },
+    "confidence_hint": { "enum": ["LOW", "MEDIUM", "HIGH", null] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "verdict": { "const": "NO_DATA" } },
+        "required": ["verdict"]
+      },
+      "then": {
+        "properties": { "selection": { "type": "null" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "verdict": { "enum": ["SUPPORTS", "OPPOSES"] } },
+        "required": ["verdict"]
+      },
+      "then": {
+        "properties": {
+          "selection": { "type": "string", "minLength": 1 },
+          "rationale": { "minItems": 1 }
+        }
+      }
+    }
+  ]
+}

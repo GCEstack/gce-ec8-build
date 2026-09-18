@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/curated_slate_item/1.0",
+  "title": "ECAI Curated Slate Item (P20 §2.7)",
+  "description": "Transparent rank tuple; agreement_index present for display only, never a gate (P22-8).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "market_scope", "direction", "eligibility",
+    "exclusion_reason", "rank_inputs", "rank", "convergence_ref"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/curated_slate_item/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "CURATOR" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "market_scope": { "type": "string", "minLength": 1 },
+    "direction": { "type": "string", "minLength": 1 },
+    "eligibility": { "enum": ["ELIGIBLE", "EXCLUDED"] },
+    "exclusion_reason": { "type": ["string", "null"] },
+    "rank_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agreement_index", "line_value", "tally"],
+      "properties": {
+        "agreement_index": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "line_value": { "type": ["number", "null"] },
+        "tally": { "type": "object" }
+      }
+    },
+    "rank": { "type": ["integer", "null"], "minimum": 1 },
+    "convergence_ref": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "eligibility": { "const": "EXCLUDED" } },
+        "required": ["eligibility"]
+      },
+      "then": {
+        "properties": {
+          "exclusion_reason": { "type": "string", "minLength": 1 },
+          "rank": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "eligibility": { "const": "ELIGIBLE" } },
+        "required": ["eligibility"]
+      },
+      "then": {
+        "properties": {
+          "exclusion_reason": { "type": "null" },
+          "rank": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  ]
+}

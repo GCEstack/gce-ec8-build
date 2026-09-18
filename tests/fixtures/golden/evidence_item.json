@@ -1,0 +1,18 @@
+{
+  "schema_id": "ecai/evidence_item/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:12:00Z",
+  "provenance": {
+    "stage": "PANEL",
+    "persona": "statistician",
+    "model_id": "anthropic.claude-sonnet-4-5",
+    "input_artifact_hashes": [
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ]
+  },
+  "claim": "Home starter has a lower frozen season ERA than the away starter.",
+  "factor": "pitchers",
+  "value": { "home_era": 3.12, "away_era": 4.05 },
+  "source_relpath": "frozen/pitchers_20260915_215229.csv",
+  "source_sha256": "e3dbeccc969deb41589aa09ea40edb2130ace999cc62b9d741b5f088a7b3aa07"
+}

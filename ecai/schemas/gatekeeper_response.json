@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/gatekeeper_response/1.0",
+  "title": "ECAI Gatekeeper Response (P20 §2.8)",
+  "description": "Validation-only verdict. Structurally contains no pick, selection, score, or numeric override field; additionalProperties:false makes mutation impossible (P22-1).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "verdict", "rationale", "checks"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/gatekeeper_response/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "GATEKEEPER" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "verdict": { "enum": ["CONFIRM", "CHALLENGE", "FLAG", "ESCALATE", "KILL"] },
+    "rationale": {
+      "type": "array",
+      "items": { "$ref": "ecai/evidence_item/1.0" }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "result"],
+        "properties": {
+          "rule_id": { "type": "string", "minLength": 1 },
+          "result": { "enum": ["PASS", "FAIL", "NOT_EVALUABLE"] }
+        }
+      }
+    }
+  }
+}

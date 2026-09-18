@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/det_output/1.0",
+  "title": "ECAI Deterministic Lane Output (P20 §2.4)",
+  "description": "Facts about data only. Structurally contains no pick, score, or recommendation field.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "market_scope", "det_checks_version", "checks", "data_sufficiency"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/det_output/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "DET" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "market_scope": { "type": "string", "minLength": 1 },
+    "det_checks_version": { "type": "string", "minLength": 1 },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "result", "detail"],
+        "properties": {
+          "check_id": { "type": "string", "minLength": 1 },
+          "result": { "enum": ["PASS", "FAIL", "NOT_EVALUABLE"] },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "data_sufficiency": { "enum": ["SUFFICIENT", "SPARSE", "INSUFFICIENT"] }
+  }
+}

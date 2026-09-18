@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/framing_object/1.0",
+  "title": "ECAI Framing Object (P20 §2.2)",
+  "description": "Source-only framing: raw frozen values + refs only. Factor whitelist excludes consensus/kalshi (P22-3). market_scope is a config-validated open string, never a hard-coded enum (P22-2).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "slate_date", "first_pitch_pt", "market_scope",
+    "factors", "missing_factors"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/framing_object/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "FRAMING" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "slate_date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "first_pitch_pt": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+    "market_scope": { "type": "string", "minLength": 1 },
+    "factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pitchers", "bullpen", "lineups", "umpire", "weather",
+        "rest", "injuries", "team_evidence", "odds_betmgm"
+      ],
+      "properties": {
+        "pitchers": { "$ref": "#/$defs/factor" },
+        "bullpen": { "$ref": "#/$defs/factor" },
+        "lineups": { "$ref": "#/$defs/factor" },
+        "umpire": { "$ref": "#/$defs/factor" },
+        "weather": { "$ref": "#/$defs/factor" },
+        "rest": { "$ref": "#/$defs/factor" },
+        "injuries": { "$ref": "#/$defs/factor" },
+        "team_evidence": { "$ref": "#/$defs/factor" },
+        "odds_betmgm": { "$ref": "#/$defs/factor" }
+      }
+    },
+    "missing_factors": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "pitchers", "bullpen", "lineups", "umpire", "weather",
+          "rest", "injuries", "team_evidence", "odds_betmgm"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "factor": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["available", "source_relpath", "source_sha256"],
+      "properties": {
+        "available": { "type": "boolean" },
+        "source_relpath": { "type": ["string", "null"] },
+        "source_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

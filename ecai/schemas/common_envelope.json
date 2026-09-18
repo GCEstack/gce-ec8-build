@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/common_envelope/1.0",
+  "title": "ECAI Common Envelope (P20 §2, PROPOSED)",
+  "description": "The common provenance envelope carried by every ECAI stage artifact. Inlined into each contract schema (see loader); this file is the canonical definition and the envelope-consistency reference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "run_id", "produced_at", "provenance"],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "pattern": "^ecai/[a-z_]+/1\\.0$"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": {
+          "enum": ["BINDING", "FRAMING", "DET", "PANEL", "CONVERGENCE", "CURATOR", "GATEKEEPER", "TERMINAL"]
+        },
+        "persona": {
+          "type": ["string", "null"]
+        },
+        "model_id": {
+          "type": ["string", "null"]
+        },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "stage": { "const": "PANEL" } },
+            "required": ["stage"]
+          },
+          "then": {
+            "required": ["persona"],
+            "properties": { "persona": { "type": "string", "minLength": 1 } }
+          }
+        }
+      ]
+    }
+  }
+}

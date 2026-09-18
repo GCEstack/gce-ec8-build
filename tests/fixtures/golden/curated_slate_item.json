@@ -1,0 +1,30 @@
+{
+  "schema_id": "ecai/curated_slate_item/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:15:00Z",
+  "provenance": {
+    "stage": "CURATOR",
+    "persona": null,
+    "model_id": null,
+    "input_artifact_hashes": [
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ]
+  },
+  "game_key": "Away@Home 2026-09-15",
+  "market_scope": "moneyline",
+  "direction": "HOME",
+  "eligibility": "ELIGIBLE",
+  "exclusion_reason": null,
+  "rank_inputs": {
+    "agreement_index": 0.6666666666666666,
+    "line_value": -130,
+    "tally": {
+      "supports": { "HOME": 2 },
+      "opposes": { "AWAY": 1 },
+      "no_data": 0,
+      "invalid": 0
+    }
+  },
+  "rank": 1,
+  "convergence_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

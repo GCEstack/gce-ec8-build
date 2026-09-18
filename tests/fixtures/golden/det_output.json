@@ -1,0 +1,22 @@
+{
+  "schema_id": "ecai/det_output/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:12:30Z",
+  "provenance": {
+    "stage": "DET",
+    "persona": null,
+    "model_id": null,
+    "input_artifact_hashes": [
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ]
+  },
+  "game_key": "Away@Home 2026-09-15",
+  "market_scope": "moneyline",
+  "det_checks_version": "det_checks/1.0",
+  "checks": [
+    { "check_id": "CHK-PITCHERS-PRESENT", "result": "PASS", "detail": "both starters present" },
+    { "check_id": "CHK-LINEUPS-CONFIRMED", "result": "PASS", "detail": "both lineups confirmed" },
+    { "check_id": "CHK-ODDS-BETMGM", "result": "PASS", "detail": "BetMGM moneyline present" }
+  ],
+  "data_sufficiency": "SUFFICIENT"
+}

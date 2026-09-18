@@ -1,0 +1,48 @@
+{
+  "schema_id": "ecai/binding_record/1.0",
+  "run_id": "11111111-1111-4111-8111-111111111111",
+  "produced_at": "2026-09-15T22:10:00Z",
+  "provenance": {
+    "stage": "BINDING",
+    "persona": null,
+    "model_id": null,
+    "input_artifact_hashes": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    ]
+  },
+  "dataset_id": "EC8_MLB_COMMON_FROZEN_DATASET_2026-09-15_EARLYCLUSTER-FROZEN-v1",
+  "freeze_timestamp": "2026-09-15T22:03:00Z",
+  "slate": {
+    "date": "2026-09-15",
+    "game_count": 15,
+    "join_key_format": "away@home YYYY-MM-DD"
+  },
+  "composite_digest": "2f1fce46ca66219a0349a372052721a47f00d515fffa20bdb5cc3d4d3fc3ae4c",
+  "manifest_path": "control/DATASET_HASHES_SHA256.txt",
+  "manifest_entry_count": 49,
+  "manifest_distinct_digests": 46,
+  "gate_status": {
+    "eligible_games": ["Away@Home 2026-09-15"],
+    "per_game": {
+      "Away@Home 2026-09-15": "READY_FOR_KIMI",
+      "Late@Game 2026-09-15": "DATA_INCOMPLETE — lineups(9/18)"
+    }
+  },
+  "excluded_matchups": [
+    {
+      "game_key": "Late@Game 2026-09-15",
+      "reason": "DATA_INCOMPLETE — lineups(9/18)"
+    }
+  ],
+  "source_artifacts": [
+    { "relpath": "DATASET_BINDING.md", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+    { "relpath": "control/DATASET_HASHES_SHA256.txt", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+    { "relpath": "governance/ANCHOR_COMMIT_EARLYCLUSTER_2026-09-15.md", "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" },
+    { "relpath": "governance/EARLY_CLUSTER_READINESS_2026-09-15.csv", "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }
+  ],
+  "binding_schema_version": "ecai/binding_record/1.0",
+  "prose_discrepancies": []
+}

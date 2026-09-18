@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ecai/terminal_item/1.0",
+  "title": "ECAI Terminal Item (P20 §2.9)",
+  "description": "Mechanical verdict-to-status map (P22-1/P22-5). ESCALATED may only derive from an actual Gatekeeper ESCALATE verdict. A gatekeeper infrastructure failure produces no terminal_item.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "run_id", "produced_at", "provenance",
+    "game_key", "terminal_status", "direction", "provenance_chain", "display"
+  ],
+  "properties": {
+    "schema_id": { "const": "ecai/terminal_item/1.0", "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "model_id", "input_artifact_hashes"],
+      "properties": {
+        "stage": { "const": "TERMINAL" },
+        "persona": { "type": ["string", "null"] },
+        "model_id": { "type": ["string", "null"] },
+        "input_artifact_hashes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "game_key": { "type": "string", "minLength": 1 },
+    "terminal_status": {
+      "enum": ["ACTIVE", "CHALLENGED", "FLAGGED", "ESCALATED", "KILLED"]
+    },
+    "direction": { "type": "string", "minLength": 1 },
+    "provenance_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_ref", "framing_ref", "det_output_ref",
+        "analyst_verdict_refs", "convergence_ref", "curator_ref", "gatekeeper_ref"
+      ],
+      "properties": {
+        "binding_ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "framing_ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "det_output_ref": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "analyst_verdict_refs": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "convergence_ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "curator_ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "gatekeeper_ref": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "display": { "type": "object" }
+  }
+}
